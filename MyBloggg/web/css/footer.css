@@ -1,0 +1,25 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 12, 2021, 11:05:16 AM
+    Author     : asus
+*/
+.footer{
+    width: 500px;
+}
+.f_title{
+    font-family: sans-serif;
+}
+.f_time{
+    font-style: italic;
+    color: gray;
+}
+.f_ul{
+    padding-left: 15px;
+}
+.f_ul li{
+    line-height: 30px;
+}

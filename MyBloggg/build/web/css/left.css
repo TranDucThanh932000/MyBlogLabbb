@@ -1,0 +1,113 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 11, 2021, 11:06:58 PM
+    Author     : asus
+*/
+.wrap-all{
+    background-image: url("../image/img04.jpg");
+    width: 800px;
+}
+.left{
+    width: 500px;
+    padding-top: 40px;
+    margin-left: 30px;
+}
+.title{
+    font-size: 30px;
+    margin-bottom: -30px;
+    color: black;
+}
+.title a{
+    text-decoration: none;
+    color: black;
+}
+.preleft{
+    font-style: italic;
+}
+.cato{
+    color: blue;
+}
+.time{
+    font-style: italic;
+    padding-bottom: 40px;
+}
+.time-release{
+    color: gray;
+}
+.content p{
+    margin-top: 0px;
+}
+.content img{
+    width: 200px;
+    height: auto;
+    float:left;
+    padding-bottom: 20px;
+    padding-right: 20px;
+}
+.main{
+    display: flex;
+}
+.all{
+    width: 768px;
+    margin: 0 auto;
+    text-align: left;
+}
+/*-----------------------------*/
+.form-info{
+    width: 450px;
+    display: flex;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-left: 50px;
+}
+.info{
+    float:right;
+}
+.inputlong{
+    line-height: 100px;
+    width: 300px;
+
+}
+.inputshort{
+    width: 300px;
+}
+.name-input p{
+    text-align: right;
+    margin-top: 3px;
+    margin-bottom: 22px;
+}
+.btn{
+    background-image: url("../image/contact_bt.gif");
+    width: 53px;
+    height: 24px;
+    border-radius: 5px;
+    color: white;
+    float:right;
+}
+input{
+    margin-bottom: 20px;
+}
+.border-form{
+    border:dashed 1px blueviolet;
+    margin-left: 40px;
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+.name-form{
+    background-color: red;
+    width: 180px;
+    text-align: center;
+    margin-top: -10px;
+    margin-left: 10px;
+    line-height: 25px;
+    font-size: 18px;
+    color: white;
+    font-family: sans-serif;
+}
+body{
+    margin: 0px;
+}

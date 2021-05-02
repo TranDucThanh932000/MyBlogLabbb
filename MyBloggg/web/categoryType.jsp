@@ -11,9 +11,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="css/left.css" rel="stylesheet" type="text/css"/>
-        <link href="css/footer.css" rel="stylesheet" type="text/css"/>
-        <link href="css/header.css" rel="stylesheet" type="text/css"/>
-        <link href="css/right.css" rel="stylesheet" type="text/css"/>
         <link href="css/categoryType.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
@@ -22,13 +19,17 @@
                 <jsp:include page="component/header.jsp"></jsp:include>
                     <div class="main">
                         <div class="left">
+                            <c:if test="${error!=null}">
+                                <h3 class="error">${error}</h3>
+                            </c:if>
+                        <c:if test="${error==null}">
                             <div class="preleft">
                                 <span class="cato">Category ${category} • </span>
                             <span>Full Category</span>
-                            </div>
+                        </div>
                         <c:forEach var="cbt" items="${categorybytype}">
                             <div class="title">
-                                <h2><a href="../J3.L.P0005/HomePage?id=${cbt.id}">${cbt.title}</a></h2>
+                                <h2><a href="HomePage?id=${cbt.id}">${cbt.title}</a></h2>
                             </div>
                             <div class="time">
                                 <span class="time-release">Posted on ${cbt.convertDate()} • </span>
@@ -44,12 +45,19 @@
                         </c:forEach>
                         <div class="paging">
                             <c:forEach begin="1" end="${maxPage}" var="i">
-                                <div class="${i==index?"canhbao":""}">
-                                    <a href="../J3.L.P0005/CategoryType?index=${i}&category=${category}">${i}</a>
-                                </div>
+                                <c:choose>
+                                    <c:when test="${index==i}">
+                                        <button class="canhbao">${i}</button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a class="canhbao2" href="CategoryType?index=${i}&category=${category}">${i}</a>
+                                    </c:otherwise>
+                                </c:choose>
                             </c:forEach>
                         </div>
+                            
                         <jsp:include page="component/footer.jsp"></jsp:include>
+                        </c:if>
                         </div>
                     <jsp:include page="component/right.jsp"></jsp:include>
                 </div>

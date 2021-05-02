@@ -59,33 +59,54 @@ public class CategoryType extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html; charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try {
-            response.setContentType("text/html; charset=UTF-8");
-            request.setCharacterEncoding("UTF-8");
             String category = request.getParameter("category");
+            request.setAttribute("category", category);
             String pageIndex = request.getParameter("index");
             BlogDAO dao = new BlogDAO();
-            List<Blog> list = dao.getTop3(3);
-            List<String> listCategory = dao.getAllCategory();
+            
             if (pageIndex == null) {
                 pageIndex = "1";
             }
-            int index = Integer.parseInt(pageIndex);
-            int total = dao.count(category);
+            int index = 0;
+            int total = 0;
+            int maxPage = 0;
             int pageSize = 2;
-            int maxPage = total / pageSize;
-            if (total % pageSize != 0) {
-                maxPage++;
+            Blog checkDB = dao.getTop1();
+            if (checkDB != null) {
+                try {
+                    index = Integer.parseInt(pageIndex);
+                    request.setAttribute("index", index);
+                    total = dao.count(category);
+                    maxPage = total / pageSize;
+                    if (total % pageSize != 0) {
+                        maxPage++;
+                    }
+                    if(index>maxPage){
+                        request.setAttribute("error", "No posts exist!");
+                    }
+                    request.setAttribute("maxPage", maxPage);
+                } catch (Exception e) {
+                    request.setAttribute("error", "Just enter a number!");
+                }
+                List<Blog> listCategoryByType = dao.getByIndex(category, index, pageSize);
+                request.setAttribute("categorybytype", listCategoryByType);
+                List<String> listCategory = dao.getAllCategory();
+                request.setAttribute("listCategory", listCategory);
+                List<Blog> list = dao.getTop3(3);
+                request.setAttribute("list", list);
+            } else {
+                request.setAttribute("error", "No posts exist!");
+                request.getRequestDispatcher("error.jsp").forward(request, response);
             }
-            List<Blog> listCategoryByType = dao.getByIndex(category, index, pageSize);
-            request.setAttribute("maxPage", maxPage);
-            request.setAttribute("index", index);
-            request.setAttribute("category", category);
-            request.setAttribute("listCategory", listCategory);
-            request.setAttribute("list", list);
-            request.setAttribute("categorybytype", listCategoryByType);
+            request.setAttribute("indexMenu", 1);
             request.getRequestDispatcher("/categoryType.jsp").forward(request, response);
         } catch (Exception e) {
+            request.setAttribute("error", "Error occuring!");
+            request.setAttribute("indexMenu", 1);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 

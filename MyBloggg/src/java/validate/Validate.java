@@ -18,7 +18,7 @@ public class Validate {
         return pattern.matcher(phone).matches();
     }
     public boolean checkEmail(String email){
-        String regex="^[A-Za-z0-9.+-_%]+@[A-Za-z]+\\.[A-Za-z]{2,4}(\\.[a-z]{2,4})?$";
+        String regex="^[A-Za-z0-9._%-]+@[A-Za-z]+\\.[A-Za-z]{2,4}(\\.[a-z]{2,4})?$";
         if(email.matches(regex)){
             return true;
         }else{
@@ -27,6 +27,6 @@ public class Validate {
     }
     public static void main(String[] args) {
         Validate v= new Validate();
-        System.out.println(v.checkEmail("asdasd@gmail.@vv"));
+        System.out.println(v.checkEmail("tranducthanh@@@gmail.vv.vna"));
     }
 }

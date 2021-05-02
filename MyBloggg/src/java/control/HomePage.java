@@ -60,32 +60,46 @@ public class HomePage extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
+        response.setContentType("text/html; charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try {
-            response.setContentType("text/html; charset=UTF-8");
-            request.setCharacterEncoding("UTF-8");
             BlogDAO dao = new BlogDAO();
-            List<Blog> list = dao.getTop3(3);
             String id = request.getParameter("id");
             String indexM = request.getParameter("indexMenu");
             if (indexM == null) {
                 indexM = "1";
             }
-            int id_blog = 0;
-            Blog current;
-            if (id != null) {
-                id_blog = Integer.parseInt(id);
-                current = dao.getBlog(id_blog);
-            } else {
-                current = dao.getTop1();
-            }
-            List<String> listCategory = dao.getAllCategory();
             request.setAttribute("indexMenu", indexM);
-            request.setAttribute("listCategory", listCategory);
-            request.setAttribute("current", current);
-            request.setAttribute("list", list);
+            int id_blog = 0;
+            Blog current = dao.getTop1();
+            if (current != null) {
+                if (id != null) {
+                    try {
+                        id_blog = Integer.parseInt(id);
+                        current = dao.getBlog(id_blog);
+                    } catch (Exception e) {
+                        request.setAttribute("error", "Just enter a number of id!");
+                    }
+                }
+                List<String> listCategory = dao.getAllCategory();
+                request.setAttribute("listCategory", listCategory);
+                List<Blog> list = dao.getTop3(3);
+                request.setAttribute("list", list);
+                if (current != null) {
+                    request.setAttribute("current", current);
+                } else {
+                    request.setAttribute("error", "This post does not exist!");
+                }
+            } else {
+                request.setAttribute("error", "No posts exist!");
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+            
             request.getRequestDispatcher("/left.jsp").forward(request, response);
         } catch (Exception e) {
-            out.print(e);
+            request.setAttribute("error", "Error occuring!");
+            request.setAttribute("indexMenu", 1);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 

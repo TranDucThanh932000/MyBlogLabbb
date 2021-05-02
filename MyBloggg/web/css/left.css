@@ -111,3 +111,12 @@ input{
 body{
     margin: 0px;
 }
+.display_error{
+    margin-left: 120px; 
+    margin-bottom: 0px;
+    font-size: 20px;
+    color:red;
+}
+.error{
+    color:red;
+}

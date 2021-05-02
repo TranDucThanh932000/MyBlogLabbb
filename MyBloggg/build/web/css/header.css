@@ -39,14 +39,17 @@ body{
 .h_ul li{
     margin-left: 50px; 
     padding: 0px;
+    
 }
 .h_ul a{
     text-decoration: none;
     color: white;
 }
+.h-img{
+    text-align: center;
+}
 .h_img{
-    margin-left: 50px;
-    margin-top: 0px;
+    margin-top: 12px;
     margin-bottom: 0px;
     width: 13px;
     height: 6px;
@@ -55,6 +58,4 @@ body{
     margin-bottom: 0px;
     line-height:0px;
 }
-.h_menuu{
-    text-align: center;
-}
+

@@ -7,21 +7,24 @@
 <%@page import="java.util.List"%>
 <%@page import="model.Blog"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="css/left.css" rel="stylesheet" type="text/css"/>
-        <link href="css/footer.css" rel="stylesheet" type="text/css"/>
-        <link href="css/header.css" rel="stylesheet" type="text/css"/>
-        <link href="css/right.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div class="all">
             <div class="wrap-all">
                 <jsp:include page="component/header.jsp"></jsp:include>
                     <div class="main">
+                        
                         <div class="left">
+                            <c:if test="${error!=null}">
+                                <h3>${error}</h3>
+                            </c:if>
+                            <c:if test="${error==null}">
                             <div class="preleft">
                                 <span class="cato">Category ${current.category} • </span>
                                 <span>Full Category</span>
@@ -41,7 +44,9 @@
                                 </div>
                             </div>
                             <hr class="hr"/>
+                            </c:if>
                         <jsp:include page="component/footer.jsp"></jsp:include>
+                            
                         </div>
                     <jsp:include page="component/right.jsp"></jsp:include>
                 </div>

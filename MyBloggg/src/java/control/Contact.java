@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Blog;
 import validate.Validate;
 
 /**
@@ -32,33 +33,7 @@ public class Contact extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            request.setCharacterEncoding("UTF-8");
 
-            BlogDAO dao = new BlogDAO();
-            String indexM = "2";
-            List<String> listCategory = dao.getAllCategory();
-
-            request.setAttribute("indexMenu", indexM);
-            request.setAttribute("listCategory", listCategory);
-            String name = request.getParameter("name");
-            String email = request.getParameter("email");
-            String company = request.getParameter("company");
-            String mess = request.getParameter("cmt");
-            String phone = request.getParameter("phone");
-            request.setAttribute("name", name);
-            request.setAttribute("email", email);
-            request.setAttribute("company", company);
-            request.setAttribute("mess", mess);
-            request.setAttribute("phone", phone);
-
-            request.getRequestDispatcher("contact.jsp").forward(request, response);
-
-        }catch(Exception e){
-            out.print(e);
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -73,16 +48,17 @@ public class Contact extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
         try {
-
-            response.setContentType("text/html; charset=UTF-8");
-            request.setCharacterEncoding("UTF-8");
             BlogDAO dao = new BlogDAO();
-            String indexM = "2";
-            List<String> listCategory = dao.getAllCategory();
-            request.setAttribute("indexMenu", indexM);
-            request.setAttribute("listCategory", listCategory);
+            Blog checkDB = dao.getTop1();
+            String noti;
+            if (checkDB != null) {
+                List<String> listCategory = dao.getAllCategory();
+                request.setAttribute("listCategory", listCategory);
+            } else {
+                request.setAttribute("noti", "No posts exist!");
+            }
+
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String company = request.getParameter("company");
@@ -93,9 +69,13 @@ public class Contact extends HttpServlet {
             request.setAttribute("company", company);
             request.setAttribute("mess", mess);
             request.setAttribute("phone", phone);
+            request.setAttribute("indexMenu", 2);
+            
             request.getRequestDispatcher("contact.jsp").forward(request, response);
         } catch (Exception e) {
-            out.print(e);
+            request.setAttribute("error", "Error occuring!");
+            request.setAttribute("indexMenu", 2);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 
@@ -110,14 +90,14 @@ public class Contact extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
         try {
-
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String company = request.getParameter("company");
             String mess = request.getParameter("cmt");
             String phone = request.getParameter("phone");
+            String noti=request.getParameter("noti");
+            request.setAttribute("noti", noti);
             validate.Validate v = new Validate();
             String error = "";
             boolean flag = false;
@@ -139,11 +119,15 @@ public class Contact extends HttpServlet {
             request.setAttribute("mess", mess);
             request.setAttribute("phone", phone);
             //}
-            BlogDAO dao = new BlogDAO();
-            String indexM = "2";
-            List<String> listCategory = dao.getAllCategory();
-            request.setAttribute("indexMenu", indexM);
-            request.setAttribute("listCategory", listCategory);
+            
+            if (noti == null) {
+                BlogDAO dao = new BlogDAO();
+                List<String> listCategory = dao.getAllCategory();
+                request.setAttribute("listCategory", listCategory);
+            } else {
+                request.setAttribute("noti", noti);
+            }
+            request.setAttribute("indexMenu", 2);
             request.setAttribute("error", error);
             if (!error.equals("Successfully!")) {
                 request.getRequestDispatcher("SaveInformation").forward(request, response);
@@ -152,7 +136,9 @@ public class Contact extends HttpServlet {
             }
 
         } catch (Exception e) {
-            out.print(e);
+            request.setAttribute("error", "Error occuring!");
+            request.setAttribute("indexMenu", 2);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 

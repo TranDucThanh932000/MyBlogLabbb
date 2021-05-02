@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Blog;
 
 /**
  *
@@ -34,13 +35,15 @@ public class SaveInformation extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            
-            BlogDAO dao = new BlogDAO();
-            String indexM = "2";
-            List<String> listCategory = dao.getAllCategory();
-
-            request.setAttribute("indexMenu", indexM);
-            request.setAttribute("listCategory", listCategory);
+            String noti=request.getParameter("noti");
+            if(noti==null){
+                BlogDAO dao = new BlogDAO();
+                List<String> listCategory = dao.getAllCategory();
+                request.setAttribute("listCategory", listCategory);
+            }else{
+                request.setAttribute("noti", noti);
+            }
+            request.setAttribute("indexMenu", 2);
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String company = request.getParameter("company");
@@ -51,9 +54,12 @@ public class SaveInformation extends HttpServlet {
             request.setAttribute("company", company);
             request.setAttribute("mess", mess);
             request.setAttribute("phone", phone);
+            
             request.getRequestDispatcher("contact.jsp").forward(request, response);
         }catch(Exception e){
-            out.print(e);
+            request.setAttribute("error", "Error occuring!");
+            request.setAttribute("indexMenu", 2);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 
